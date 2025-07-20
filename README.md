@@ -9,7 +9,7 @@ This project is a machine learning-based web application that predicts the risk 
 
 ## Application Interface
 
-<img src="Screenshots/s1.png" width="700"/>
+<img src="Screenshots/s1.PNG" width="700"/>
 
 ---
 
@@ -23,7 +23,7 @@ This project is a machine learning-based web application that predicts the risk 
 
 ## Sample Outputs
 
-| <img src="Screenshots/s2.png" width="300"/> | <img src="Screenshots/s3.png" width="300"/> |
+| <img src="Screenshots/s2.PNG" width="300"/> | <img src="Screenshots/s3.PNG" width="300"/> |
 | :----------------------------------------: | :----------------------------------------: |
 | **Low Risk Prediction**                    | **High Risk Prediction**                    |
 
