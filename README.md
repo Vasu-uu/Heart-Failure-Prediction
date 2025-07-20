@@ -1,51 +1,51 @@
 # Heart Failure Prediction Web Application
 
-This project is a machine learning application that predicts the risk of heart failure in patients based on their clinical records. The predictive model is deployed as a web application using the Flask framework.
+This project is a machine learning-based web application that predicts the risk of heart failure in patients based on their clinical records. The predictive model is deployed using the **Flask** web framework.
 
-This project was created as part of the **Predictive Modelling Bootcamp** by **DevTown**.
-
----
-
-## 🖥️ Application Interface
-
-![UI Screenshot](Screenshots/s1.png)
+> **Project Created For:**  
+> **Predictive Modelling Bootcamp by DevTown**
 
 ---
 
-## 🚀 Features
+## Application Interface
 
-- **Predictive Model:** Utilizes a tuned `RandomForestClassifier` with an accuracy of **83.33%**.
-- **Interactive UI:** A professional and responsive dark-themed user interface for entering patient data.
-- **Flask Backend:** A lightweight backend to serve the model and handle predictions.
+<img src="Screenshots/s1.png" width="700"/>
 
 ---
 
-## 📊 Sample Outputs
+## Features
 
-Here are examples of the prediction results for both low-risk and high-risk cases.
-
-| Low Risk Prediction                     | High Risk Prediction                     |
-| --------------------------------------- | ---------------------------------------- |
-| ![Low Risk Output](Screenshots/s2.png)   | ![High Risk Output](Screenshots/s3.png)   |
+- **Predictive Model:** Uses a tuned `RandomForestClassifier` with an accuracy of **83.33%`.
+- **Interactive UI:** Clean, responsive, and dark-themed user interface for inputting patient data.
+- **Flask Backend:** Lightweight Python backend to serve the model and process predictions.
 
 ---
 
-## 🛠️ Tech Stack
+## Sample Outputs
+
+| <img src="Screenshots/s2.png" width="300"/> | <img src="Screenshots/s3.png" width="300"/> |
+| :----------------------------------------: | :----------------------------------------: |
+| **Low Risk Prediction**                    | **High Risk Prediction**                    |
+
+---
+
+## Tech Stack
 
 - **Backend:** Python, Flask  
-- **ML/Data Science:** Pandas, Scikit-learn, NumPy  
+- **Machine Learning:** Pandas, Scikit-learn, NumPy  
 - **Frontend:** HTML, CSS  
 
 ---
 
-## ⚙️ How to Run the Project Locally
+## How to Run the Project Locally
 
-Follow these steps to get the application running on your local machine.
+Follow these steps to set up and run the project on your local machine:  
 
 ### 1️⃣ Clone the Repository
 ```bash
 git clone https://github.com/Vasu-uu/Heart-Failure-Prediction.git
 cd Heart-Failure-Prediction
+```
 
 ### 2️⃣ Create and Activate a Virtual Environment
 
@@ -53,38 +53,33 @@ cd Heart-Failure-Prediction
 ```bash
 python3 -m venv venv
 source venv/bin/activate
-
----
+```
 
 **For Windows:**
 ```bash
 python -m venv venv
-.\venv\Scripts\activate
-
----
-
+.env\Scriptsctivate
+```
 
 ### 3️⃣ Install Dependencies
 ```bash
 pip install -r requirements.txt
-
-
----
+```
 
 ### 4️⃣ Run the Flask Application
 ```bash
 python app.py
+```
 
+### 5️⃣ Access the Application
+Open your browser and go to:  
+[http://127.0.0.1:5000](http://127.0.0.1:5000)
 
-### 5️⃣ Access the Application  
-Open your web browser and go to:  
-http://127.0.0.1:5000
-
-You should now see the web application running and can input data to get predictions.
+You should now see the application running and ready for predictions.
 
 ---
 
-## ✍️ Author
+## Author
 
 **Vasudev V**  
-[https://github.com/Vasu-uu](https://github.com/Vasu-uu)
+[GitHub - Vasu-uu](https://github.com/Vasu-uu)
