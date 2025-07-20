@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heart Failure Prediction</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #121828;
+            --surface-color: #1b2133;
+            --primary-color: #3672f8;
+            --primary-hover: #2958c5;
+            --text-color: #e0e0e0;
+            --text-muted: #8a93a5;
+            --border-color: #2a3149;
+            --success-color: #05a660;
+            --danger-color: #e44c4c;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            padding: 2.5em;
+            width: 100%;
+            max-width: 750px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2em;
+        }
+
+        .header-icon {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 0.5em;
+            color: var(--primary-color);
+        }
+
+        h1 {
+            font-weight: 700;
+            font-size: 1.75rem;
+            margin: 0;
+        }
+        
+        p.subtitle {
+            color: var(--text-muted);
+            margin-top: 0.5em;
+        }
+
+        form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        input, select {
+            padding: 14px;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input::placeholder {
+            color: var(--text-muted);
+        }
+
+        select option {
+            background-color: var(--surface-color);
+            color: var(--text-color);
+        }
+        
+        select:invalid {
+            color: var(--text-muted);
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(54, 114, 248, 0.2);
+        }
+
+        .button-container {
+            grid-column: 1 / -1;
+            text-align: center;
+            margin-top: 25px;
+        }
+
+        button {
+            background: var(--primary-color);
+            color: white;
+            padding: 16px 32px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            width: 100%;
+            transition: background-color 0.2s, transform 0.2s;
+        }
+
+        button:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+        }
+        
+        .prediction-result {
+            margin-top: 30px;
+            padding: 16px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-align: center;
+            border: 1px solid transparent;
+        }
+        
+        .low-risk {
+            background-color: rgba(5, 166, 96, 0.1);
+            color: var(--success-color);
+            border-color: var(--success-color);
+        }
+
+        .high-risk {
+            background-color: rgba(228, 76, 76, 0.1);
+            color: var(--danger-color);
+            border-color: var(--danger-color);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <svg class="header-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+            </svg>
+            <h1>Heart Failure Prediction</h1>
+            <p class="subtitle">Enter patient data to predict risk</p>
+        </div>
+
+        <form action="{{ url_for('predict') }}" method="post">
+            <div class="form-group">
+                <label for="age">Age</label>
+                <input type="number" step="any" name="age" placeholder="e.g., 60" value="{{ form_data.get('age', '') }}" required>
+            </div>
+            <div class="form-group">
+                <label for="anaemia">Anaemia</label>
+                <select name="anaemia" required>
+                    <option value="" disabled {% if not form_data.get('anaemia') %}selected{% endif %}>Select...</option>
+                    <option value="0" {% if form_data.get('anaemia') == '0' %}selected{% endif %}>No</option>
+                    <option value="1" {% if form_data.get('anaemia') == '1' %}selected{% endif %}>Yes</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="creatinine_phosphokinase">Creatinine Phosphokinase (mcg/L)</label>
+                <input type="number" step="any" name="creatinine_phosphokinase" placeholder="e.g., 582" value="{{ form_data.get('creatinine_phosphokinase', '') }}" required>
+            </div>
+            <div class="form-group">
+                <label for="diabetes">Diabetes</label>
+                <select name="diabetes" required>
+                    <option value="" disabled {% if not form_data.get('diabetes') %}selected{% endif %}>Select...</option>
+                    <option value="0" {% if form_data.get('diabetes') == '0' %}selected{% endif %}>No</option>
+                    <option value="1" {% if form_data.get('diabetes') == '1' %}selected{% endif %}>Yes</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="ejection_fraction">Ejection Fraction (%)</label>
+                <input type="number" step="any" name="ejection_fraction" placeholder="e.g., 20" value="{{ form_data.get('ejection_fraction', '') }}" required>
+            </div>
+            <div class="form-group">
+                <label for="high_blood_pressure">High Blood Pressure</label>
+                <select name="high_blood_pressure" required>
+                    <option value="" disabled {% if not form_data.get('high_blood_pressure') %}selected{% endif %}>Select...</option>
+                    <option value="0" {% if form_data.get('high_blood_pressure') == '0' %}selected{% endif %}>No</option>
+                    <option value="1" {% if form_data.get('high_blood_pressure') == '1' %}selected{% endif %}>Yes</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="platelets">Platelets (kiloplatelets/mL)</label>
+                <input type="number" step="any" name="platelets" placeholder="e.g., 265000" value="{{ form_data.get('platelets', '') }}" required>
+            </div>
+            <div class="form-group">
+                <label for="serum_creatinine">Serum Creatinine (mg/dL)</label>
+                <input type="number" step="any" name="serum_creatinine" placeholder="e.g., 1.9" value="{{ form_data.get('serum_creatinine', '') }}" required>
+            </div>
+            <div class="form-group">
+                <label for="serum_sodium">Serum Sodium (mEq/L)</label>
+                <input type="number" step="any" name="serum_sodium" placeholder="e.g., 130" value="{{ form_data.get('serum_sodium', '') }}" required>
+            </div>
+            <div class="form-group">
+                <label for="sex">Sex</label>
+                <select name="sex" required>
+                    <option value="" disabled {% if not form_data.get('sex') %}selected{% endif %}>Select...</option>
+                    <option value="0" {% if form_data.get('sex') == '0' %}selected{% endif %}>Female</option>
+                    <option value="1" {% if form_data.get('sex') == '1' %}selected{% endif %}>Male</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="smoking">Smoking</label>
+                <select name="smoking" required>
+                    <option value="" disabled {% if not form_data.get('smoking') %}selected{% endif %}>Select...</option>
+                    <option value="0" {% if form_data.get('smoking') == '0' %}selected{% endif %}>No</option>
+                    <option value="1" {% if form_data.get('smoking') == '1' %}selected{% endif %}>Yes</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="time">Follow-up Period (days)</label>
+                <input type="number" step="any" name="time" placeholder="e.g., 4" value="{{ form_data.get('time', '') }}" required>
+            </div>
+
+            <div class="button-container">
+                <button type="submit">Predict Risk</button>
+            </div>
+        </form>
+
+        {% if prediction_text %}
+        <div class="prediction-result {{ risk_class }}">
+            {{ prediction_text }}
+        </div>
+        {% endif %}
+    </div>
+
+</body>
+</html>
